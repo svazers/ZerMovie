@@ -7,20 +7,23 @@
   <link rel="icon" href="/icon.png" sizes="any">
   <link rel="icon" href="/icon.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #000000;
-      --surface:   #0d0d0d;
-      --surface2:  #1a1a1a;
-      --border:    rgba(255,255,255,0.12);
-      --purple:    #ffffff;
-      --purple-lt: #d4d4d4;
+      --bg:        #080A0C; /* Midnight Surface */
+      --surface:   #0e1114; /* lifted panel */
+      --surface2:  #16191d;
+      --border:    rgba(57,59,61,0.7); /* Slate Border #393B3D */
+      --purple:    #F5A623; /* Cinematic Orange */
+      --purple-lt: #ffba45;
+      --gold:      #F5A623;
       --text:      #fafafa;
       --text-dim:  rgba(255,255,255,0.6);
       --text-mute: rgba(255,255,255,0.4);
-      --gold:      #ffffff;
       --silver:    #d4d4d4;
       --bronze:    #a3a3a3;
       --green:     #ffffff;
@@ -28,7 +31,7 @@
 
     html { scroll-behavior: smooth; }
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       font-size: 12px;
@@ -265,7 +268,7 @@
       padding: 11px 24px; border-radius: 12px;
       font-size: 13px; font-weight: 700; color: #000; cursor: pointer; border: none;
       background: linear-gradient(135deg, var(--purple), var(--purple-lt));
-      box-shadow: 0 6px 24px rgba(255,255,255,0.15);
+      box-shadow: 0 6px 24px rgba(245,166,35,0.28);
       transition: filter 0.15s, transform 0.15s;
     }
     .btn-pri:hover { filter: brightness(0.92); }
