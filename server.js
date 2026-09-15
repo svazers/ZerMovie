@@ -192,17 +192,17 @@ const engine = {
       season, episode,
       server_streaming: m ? {
         'Vidlink (Fast Direct 1080p)': `https://vidlink.pro/movie/${id}?primaryColor=e50914&autoplay=true`,
+        'Videasy (4K Ultra HD)': `https://player.videasy.net/movie/${id}`,
         'NxSha AWS (Multi-Audio & Sub Indo)': `https://web.nxsha.app/embed/movie/${id}?server=AwsPly-[Multi-Lang]`,
         'ZxcStream (Dubbing & Sub Indo)': `https://zxcstream.xyz/player/movie/${id}?dubLang=id`,
-        'Videasy (4K Ultra HD)': `https://player.videasy.net/movie/${id}`,
         'AutoEmbed (Multi-Source)': `https://player.autoembed.co/embed/movie/${id}`,
         '2Embed (Cloud Stream)': `https://2embed.cc/embed/${id}`,
         'VidSrc SBS Pro': `https://vidsrc.sbs/embed/movie/${id}?color=e50914&sub=id`
       } : {
         'Vidlink (Fast Direct 1080p)': `https://vidlink.pro/tv/${id}/${season}/${episode}?primaryColor=e50914&autoplay=true`,
+        'Videasy (4K Ultra HD)': `https://player.videasy.net/tv/${id}/${season}/${episode}`,
         'NxSha AWS (Multi-Audio & Sub Indo)': `https://web.nxsha.app/embed/tv/${id}/${season}/${episode}?server=AwsPly-[Multi-Lang]`,
         'ZxcStream (Dubbing & Sub Indo)': `https://zxcstream.xyz/player/tv/${id}/${season}/${episode}/en?dubLang=id`,
-        'Videasy (4K Ultra HD)': `https://player.videasy.net/tv/${id}/${season}/${episode}`,
         'AutoEmbed (Multi-Source)': `https://player.autoembed.co/embed/tv/${id}/${season}/${episode}`,
         '2Embed (Cloud Stream)': `https://2embed.cc/embedtv/${id}&s=${season}&e=${episode}`,
         'VidSrc SBS Pro': `https://vidsrc.sbs/embed/tv/${id}/${season}/${episode}?color=e50914&sub=id`

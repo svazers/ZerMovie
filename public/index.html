@@ -1229,7 +1229,7 @@ async function viewWatch(type, id, season, episode, serverIdx) {
         ).join('')}
       </div>
       <div class="player-wrap">
-        <iframe src="${playerUrl}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="unsafe-url"></iframe>
+        <iframe src="${playerUrl}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-presentation allow-fullscreen"></iframe>
       </div>
     </div>
     ${footer()}`;
