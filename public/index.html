@@ -1072,7 +1072,6 @@ async function viewSearch(q) {
     <button class="back-btn" onclick="history.back()">${I.back} Back</button>
     <div class="loading" id="sl">Mencari "${q}"…</div>
     <div id="sr" style="display:none"></div>`;
-  bindSearch();
 
   const data = await api(`/api/search?q=${encodeURIComponent(q)}`);
   const sl = document.getElementById('sl');
@@ -1327,87 +1326,90 @@ function suggestionRow(item) {
 }
 
 function bindSearch() {
-  const input = document.getElementById('hdr-srch') || document.getElementById('srch-page-input');
-  if (!input) return;
-  // dropdown anchors to a relatively-positioned wrapper around the input.
-  // header input sits in .hdr-search; page input sits in .srch-box.
-  const wrap = input.closest('.hdr-search') || input.parentElement;
-  let drop = null;
-  let timer = null;
-
-  const close = () => { if (drop) { drop.remove(); drop = null; } };
-  const open = () => {
-    if (!drop) { drop = document.createElement('div'); drop.className = 'srch-drop'; wrap.appendChild(drop); }
-    return drop;
-  };
-
-  const renderHistory = () => {
-    const h = searchHistory();
-    if (!h.length) { close(); return; }
-    open().innerHTML = `<div class="sd-hd">Riwayat Pencarian</div>` +
-      h.map(q => `<div class="srch-drop-row" data-q="${q}">${I.clock}<span style="flex:1">${q}</span></div>`).join('');
-  };
-
-  // tapping container focuses input
-  wrap.addEventListener('click', e => { if (e.target !== input) input.focus(); });
-
-  // delegate clicks inside dropdown
-  wrap.addEventListener('click', e => {
-    const row = e.target.closest('.srch-drop-row');
-    if (row) {
-      close();
-      if (row.dataset.q) {
-        input.value = row.dataset.q;
-        pushSearch(row.dataset.q);
-        location.hash = `#!/search/${encodeURIComponent(row.dataset.q)}`;
-      } else {
-        location.hash = `#!/anime/${row.dataset.slug}/${row.dataset.id}/${row.dataset.type}/1/1`;
-      }
-      input.blur();
-      return;
-    }
-    if (e.target.closest('.sd-cta')) {
-      const q = input.value.trim();
-      close();
-      if (q) { pushSearch(q); location.hash = `#!/search/${encodeURIComponent(q)}`; }
-      input.blur();
-    }
+  // ponytail: attach the global document click closer once; bind every rendered
+  // search input each call (cheap for this app, no leak since elements are recreated per render).
+  if (!window.__searchDocBound) {
+    window.__searchDocBound = true;
+    document.addEventListener('click', e => {
+      document.querySelectorAll('.srch-drop').forEach(d => {
+        if (!d.contains(e.target)) d.remove();
+      });
+    });
+  }
+  document.querySelectorAll('#hdr-srch, #srch-page-input').forEach(input => {
+    if (!input || input.__bound) return;
+    input.__bound = true;
+    wireInput(input);
   });
 
-  document.addEventListener('click', e => { if (!wrap.contains(e.target)) close(); });
-
-  input.addEventListener('focus', renderHistory);
-
-  input.addEventListener('input', () => {
-    clearTimeout(timer);
-    const q = input.value.trim();
-    if (!q) { renderHistory(); return; }
-    timer = setTimeout(async () => {
-      const box = open();
-      box.innerHTML = `<div class="sd-empty">Mencari...</div>`;
-      const data = await api(`/api/search?q=${encodeURIComponent(q)}`);
-      const list = data?.hasil || [];
-      if (input.value.trim() !== q) return; // stale response
-      if (!list.length) {
-        box.innerHTML = `<div class="sd-empty">Tidak ada hasil</div>` +
-          `<div class="sd-cta">Lihat semua hasil "${q}"</div>`;
+  function wireInput(input) {
+    const wrap = input.closest('.hdr-search') || input.parentElement;
+    let drop = null;
+    let timer = null;
+    const close = () => { if (drop) { drop.remove(); drop = null; } };
+    const open = () => {
+      if (!drop) { drop = document.createElement('div'); drop.className = 'srch-drop'; wrap.appendChild(drop); }
+      return drop;
+    };
+    const renderHistory = () => {
+      const h = searchHistory();
+      if (!h.length) { close(); return; }
+      open().innerHTML = `<div class="sd-hd">Riwayat Pencarian</div>` +
+        h.map(q => `<div class="srch-drop-row" data-q="${q}">${I.clock}<span style="flex:1">${q}</span></div>`).join('');
+    };
+    wrap.addEventListener('click', e => { if (e.target !== input) input.focus(); });
+    wrap.addEventListener('click', e => {
+      const row = e.target.closest('.srch-drop-row');
+      if (row) {
+        close();
+        if (row.dataset.q) {
+          input.value = row.dataset.q;
+          pushSearch(row.dataset.q);
+          location.hash = `#!/search/${encodeURIComponent(row.dataset.q)}`;
+        } else {
+          location.hash = `#!/anime/${row.dataset.slug}/${row.dataset.id}/${row.dataset.type}/1/1`;
+        }
+        input.blur();
         return;
       }
-      box.innerHTML = list.slice(0,6).map(suggestionRow).join('') +
-        `<div class="sd-cta">Lihat semua ${data.total_ditemukan||list.length} hasil</div>`;
-    }, 300);
-  });
-
-  input.addEventListener('keydown', e => {
-    if (e.key !== 'Enter') return;
-    e.preventDefault();
-    const q = input.value.trim();
-    if (!q) return;
-    pushSearch(q);
-    close();
-    location.hash = `#!/search/${encodeURIComponent(q)}`;
-    input.blur();
-  });
+      if (e.target.closest('.sd-cta')) {
+        const q = input.value.trim();
+        close();
+        if (q) { pushSearch(q); location.hash = `#!/search/${encodeURIComponent(q)}`; }
+        input.blur();
+      }
+    });
+    input.addEventListener('focus', renderHistory);
+    input.addEventListener('input', () => {
+      clearTimeout(timer);
+      const q = input.value.trim();
+      if (!q) { renderHistory(); return; }
+      timer = setTimeout(async () => {
+        const box = open();
+        box.innerHTML = `<div class="sd-empty">Mencari...</div>`;
+        const data = await api(`/api/search?q=${encodeURIComponent(q)}`);
+        const list = data?.hasil || [];
+        if (input.value.trim() !== q) return;
+        if (!list.length) {
+          box.innerHTML = `<div class="sd-empty">Tidak ada hasil</div>` +
+            `<div class="sd-cta">Lihat semua hasil "${q}"</div>`;
+          return;
+        }
+        box.innerHTML = list.slice(0,6).map(suggestionRow).join('') +
+          `<div class="sd-cta">Lihat semua ${data.total_ditemukan||list.length} hasil</div>`;
+      }, 300);
+    });
+    input.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      const q = input.value.trim();
+      if (!q) return;
+      pushSearch(q);
+      close();
+      location.hash = `#!/search/${encodeURIComponent(q)}`;
+      input.blur();
+    });
+  }
 }
 
 async function render() {
@@ -1424,7 +1426,7 @@ async function render() {
   }
   bindHero();
   bindSidebar();
-  bindReveal();
+  bindSearch();
 }
 
 // ─── Reveal on scroll (MovieZone restrained motion) ──────────────────────────
