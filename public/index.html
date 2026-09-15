@@ -203,11 +203,11 @@
     }
     .srch-box { position: relative; }
 
-    /* ── HERO SPOTLIGHT (carousel) ───────────────────── */
+    /* ── HERO ─────────────────────────────────────────── */
+    /* MovieZone: single editorial hero, gold eyebrow, double gradient scrim */
     .hero {
-      position: relative; height: 420px; overflow: hidden;
-      margin: 16px 20px 0;
-      border-radius: 16px; border: 1px solid var(--border);
+      position: relative; height: 70vw; max-height: 460px; min-height: 320px; overflow: hidden;
+      margin: 0 0 8px; border-radius: 0;
     }
     .hero .slide {
       position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-out;
@@ -217,33 +217,29 @@
     .hero .slide img {
       width: 100%; height: 100%; object-fit: cover; object-position: center;
     }
-    .hero .slide.active img { animation: kenburns 6s ease-out forwards; }
-    @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.08); } }
+    .hero .slide.active img { animation: kenburns 8s ease-out forwards; }
+    @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.06); } }
     .hero .slide::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(6,6,11,0.95) 0%, rgba(6,6,11,0.6) 55%, rgba(6,6,11,0.15) 100%),
-                  linear-gradient(to right, rgba(6,6,11,0.85) 18%, rgba(6,6,11,0.45) 55%, transparent 100%);
+      background: linear-gradient(to right, rgba(8,10,12,0.92) 0%, rgba(8,10,12,0.55) 45%, transparent 75%),
+                  linear-gradient(to top, rgba(8,10,12,0.95) 0%, rgba(8,10,12,0.45) 45%, transparent 75%);
     }
     .hero-body {
       position: absolute; inset: 0; z-index: 2;
       display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 24px; max-width: 720px;
+      padding: 24px 16px; max-width: 720px;
     }
     .hero-body > * { animation: fadeUp 0.5s ease; }
     .spotlight-label {
       display: inline-flex; align-items: center; gap: 6px; width: fit-content;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: #fff;
-      font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px;
-      padding: 6px 14px; border-radius: 999px; margin-bottom: 12px;
+      color: var(--gold);
+      font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.4px;
+      margin-bottom: 10px;
     }
-    .spotlight-label .lb-num { font-weight: 900; }
-    .spotlight-label::before { content: '#'; opacity: 0.8; }
+    .spotlight-label::before { display: none; }
     .hero-title {
-      font-size: 32px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.08;
-      color: var(--text); margin-bottom: 10px;
-      text-shadow: 0 2px 16px rgba(0,0,0,0.6);
+      font-size: clamp(22px, 5vw, 34px); font-weight: 900; letter-spacing: -0.5px; line-height: 1.08;
+      color: #fff; margin-bottom: 10px;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
     .hero-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
@@ -252,57 +248,33 @@
       background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85);
     }
     .hero-meta {
-      font-size: 11px; color: var(--text-dim); margin-bottom: 0;
+      font-size: 11px; color: rgba(255,255,255,0.7); margin-bottom: 0;
       display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
     }
     .hero-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
-    /* gradient scrim sits between the poster (z0) and the text/buttons
-       (hero-body z2) so the action buttons stay legible and crisp above it */
-    .hero::before {
-      content: ''; position: absolute; z-index: 1; right: 0; bottom: 0; left: 0;
-      height: 120px; pointer-events: none;
-      background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
-    }
+    .hero::before { display: none; }
     .btn-pri {
       display: inline-flex; align-items: center; gap: 7px;
       padding: 11px 24px; border-radius: 12px;
-      font-size: 13px; font-weight: 700; color: #000; cursor: pointer; border: none;
+      font-size: 13px; font-weight: 800; color: #080A0C; cursor: pointer; border: none;
       background: linear-gradient(135deg, var(--purple), var(--purple-lt));
       box-shadow: 0 6px 24px rgba(245,166,35,0.28);
       transition: filter 0.15s, transform 0.15s;
     }
     .btn-pri:hover { filter: brightness(0.92); transform: translateY(-1px); }
-    .btn-sec:hover { background: rgba(255,255,255,0.16); transform: translateY(-1px); }
     .btn-pri:active { transform: scale(0.96); }
     .btn-sec {
       display: inline-flex; align-items: center; gap: 7px;
       padding: 11px 20px; border-radius: 12px;
-      font-size: 13px; font-weight: 700; color: var(--text); cursor: pointer;
-      background: rgba(255,255,255,0.08); border: 1px solid var(--border);
+      font-size: 13px; font-weight: 700; color: #fff; cursor: pointer;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
       transition: background 0.15s, transform 0.15s;
     }
-    .btn-sec:hover { background: rgba(255,255,255,0.16); }
+    .btn-sec:hover { background: rgba(255,255,255,0.16); transform: translateY(-1px); }
     .btn-sec:active { transform: scale(0.96); }
 
-    /* hero thumbnails (right-bottom) */
-    .hero-thumbs {
-      position: absolute; right: 16px; bottom: 16px; z-index: 3;
-      display: flex; gap: 8px; overflow-x: auto; max-width: 60%;
-      padding: 2px; scrollbar-width: none;
-    }
-    .hero-thumbs::-webkit-scrollbar { display: none; }
-    .hero-thumb {
-      flex-shrink: 0; cursor: pointer; border: none; padding: 0;
-      width: 44px; height: 64px; border-radius: 8px; overflow: hidden;
-      background: var(--surface2);
-      opacity: 0.55; transition: all 0.25s; position: relative;
-    }
-    .hero-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .hero-thumb:hover { opacity: 1; }
-    .hero-thumb.active {
-      opacity: 1; width: 52px; height: 74px;
-      box-shadow: 0 0 0 2px var(--purple-lt);
-    }
+    /* hide MovieZone-incompatible carousel thumbnails */
+    .hero-thumbs { display: none; }
 
     /* ── GENRE PILLS ─────────────────────────────────── */
     .genre-scroll {
@@ -326,94 +298,82 @@
     }
 
     /* ── SECTION ─────────────────────────────────────── */
-    .section { padding: 6px 20px 24px; }
+    /* MovieZone: gold uppercase eyebrow + title + "Semua" link */
+    .section { padding: 4px 16px 24px; }
     .section-hd {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 12px;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 12px; gap: 8px;
+    }
+    .section-eyebrow {
+      display: flex; align-items: center; gap: 6px;
+      color: var(--gold); font-size: 10px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 3px;
     }
     .section-title {
-      font-size: 14px; font-weight: 700; color: var(--text);
-      display: flex; align-items: center; gap: 6px;
+      font-size: 16px; font-weight: 700; color: #fff; letter-spacing: -0.2px;
+      line-height: 1.1;
     }
-    .section-title::before {
-      content: ''; display: block; width: 3px; height: 14px;
-      background: var(--purple); border-radius: 2px;
-    }
+    .section-title::before { display: none; }
     .section-link {
-      font-size: 11px; font-weight: 500; color: var(--purple-lt); opacity: 0.7;
-      transition: opacity 0.15s;
+      font-size: 12px; font-weight: 600; color: var(--gold);
+      white-space: nowrap; flex-shrink: 0;
     }
-    .section-link:hover { opacity: 1; }
+    .section-link:hover { opacity: 0.8; }
 
     /* ── POSTER CARDS (horizontal scroll) ─────────────── */
+    /* MovieZone: poster-card style, title below, gold star bottom-left */
     .cards-scroll {
-      display: flex; gap: 10px; overflow-x: auto;
+      display: flex; gap: 12px; overflow-x: auto;
       padding-bottom: 8px; scroll-snap-type: x mandatory;
       scrollbar-width: none;
     }
     .cards-scroll::-webkit-scrollbar { display: none; }
     .cards-scroll > * { scroll-snap-align: start; flex-shrink: 0; }
 
-    /* Poster Card — exact target classes */
     .card {
       position: relative; display: block;
-      width: 140px;
+      width: 144px;
       border-radius: 12px; overflow: hidden;
-      background: var(--surface);
-      border: 1px solid rgba(255,255,255,0.06);
-      transition: border-color 0.2s, transform 0.2s;
+      background: transparent;
+      transition: transform 0.2s;
       cursor: pointer;
     }
-    .card:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.55); }
-    .card:hover .card-img img { transform: scale(1.05); filter: brightness(1.06); }
+    .card:hover { transform: translateY(-3px); }
     .card-img {
       position: relative; aspect-ratio: 2/3; overflow: hidden;
+      border-radius: 12px; background: var(--surface);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
     }
     .card-img img {
       width: 100%; height: 100%; object-fit: cover;
       transition: transform 0.5s;
     }
     .card:hover .card-img img { transform: scale(1.05); }
-    /* bottom gradient */
     .card-img::after {
       content: ''; position: absolute; left: 0; right: 0; bottom: 0;
-      height: 40%; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      height: 38%; background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
     }
     .card-badge {
       position: absolute; top: 6px; left: 6px;
       background: rgba(0,0,0,0.55);
       border-radius: 5px; padding: 2px 6px;
       font-size: 9px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.5px; color: rgba(255,255,255,0.8);
+      letter-spacing: 0.5px; color: rgba(255,255,255,0.85);
     }
     .card-score {
-      position: absolute; top: 6px; right: 6px;
-      background: rgba(0,0,0,0.55);
-      border-radius: 5px; padding: 2px 5px;
-      font-size: 9px; font-weight: 700; color: #fff;
-      display: flex; align-items: center; gap: 2px;
+      position: absolute; bottom: 6px; left: 8px; z-index: 2;
+      font-size: 10px; font-weight: 700; color: var(--gold);
+      display: flex; align-items: center; gap: 3px;
     }
-    .card-info { padding: 8px 10px; }
+    .card-info { padding: 7px 2px 0; }
     .card-title {
-      font-size: 12px; font-weight: 600; line-height: 1.35;
-      color: var(--text);
+      font-size: 12px; font-weight: 600; line-height: 1.3; color: var(--text);
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-      overflow: hidden; margin-bottom: 4px;
-      transition: color 0.15s;
+      overflow: hidden;
     }
     .card:hover .card-title { color: #fff; }
-    .card-watch {
-      display: flex; align-items: center; justify-content: center; gap: 4px;
-      padding: 5px 10px; margin-top: 4px;
-      background: linear-gradient(135deg, var(--purple), var(--purple-lt));
-      border-radius: 7px; font-size: 11px; font-weight: 700; color: #000;
-      transition: opacity 0.15s;
-    }
-    .card:hover .card-watch { opacity: 0.9; }
-    .card-status {
-      font-size: 10px; font-weight: 500; color: var(--text-dim);
-      margin-top: 3px;
-    }
+    .card-watch { display: none; }
+    .card-status { display: none; }
 
     /* Grid variant */
     .cards-grid {
@@ -736,6 +696,7 @@ const I = {
   menu:   `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>`,
   x:      `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`,
   info:   `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`,
+  chevron: `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`,
   flame:  `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg>`,
   clock:  `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
   heart:  `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.51 4.04 3 5.5l7 7Z"/></svg>`,
@@ -813,9 +774,7 @@ function card(item) {
     </div>
     <div class="card-info">
       <div class="card-title">${title}</div>
-      ${year ? `<div style="font-size:10px;color:var(--text-mute);margin-bottom:2px">${year}</div>` : ''}
-      <div class="card-watch">${I.play} Watch</div>
-      ${status ? `<div class="card-status">${status}</div>` : ''}
+      ${year ? `<div style="font-size:10px;color:var(--text-mute)">${year}</div>` : ''}
     </div>
   </a>`;
 }
@@ -930,15 +889,15 @@ function hero(items) {
         ${s.backdrop ? `<img src="${s.backdrop}" alt="" decoding="async">` : ''}
       </div>`).join('')}
     <div class="hero-body">
-      <div class="spotlight-label"><span class="lb-num" id="hero-num">1</span> Spotlight</div>
+      <div class="spotlight-label">${I.flame} Pilihan Editor</div>
       <h1 class="hero-title" id="hero-title">${esc(slides[0].title)}</h1>
       <div class="hero-badges">
         <span class="hero-badge" id="hero-type">${typeLabel(slides[0].type)}</span>
         ${slides[0].year ? `<span class="hero-badge">${esc(String(slides[0].year))}</span>` : ''}
       </div>
       <div class="hero-btns">
-        <a id="hero-watch" href="#!/watch/${slides[0].type}/${slides[0].id}/1/1" class="btn-pri">${I.play} Watch Now</a>
-        <a id="hero-detail" href="#!/anime/${slides[0].slug}/${slides[0].id}/${slides[0].type}/1/1" class="btn-sec">${I.info} Details</a>
+        <a id="hero-watch" href="#!/watch/${slides[0].type}/${slides[0].id}/1/1" class="btn-pri">${I.play} Tonton</a>
+        <a id="hero-detail" href="#!/anime/${slides[0].slug}/${slides[0].id}/${slides[0].type}/1/1" class="btn-sec">${I.info} Detail</a>
       </div>
     </div>
     ${slides.length > 1 ? `
@@ -992,10 +951,23 @@ function genrePills() {
   ).join('')}</div>`;
 }
 
+// MovieZone-style eyebrow per section label
+const EYEBROW = {
+  'Top Content Today': 'Lagi Ramai', 'Trending Now': 'Lagi Ramai Ditonton',
+  'Baru Ditambahkan': 'Baru', 'Top 10 Anime Minggu Ini': 'Top 10',
+  'K-Drama Pilihan': 'Pilihan', 'Pilihan Berdasarkan Genre': 'Genre',
+  'Top Negara': 'Negara', 'Rilis Baru untuk Ditonton': 'Rilis Baru',
+  'Rating Tinggi Pilihan Penonton': 'Rating Tinggi', 'Series untuk Maraton': 'Maraton',
+};
 function section(title, cards) {
+  const eyebrow = EYEBROW[title] || 'Jelajahi';
   return `<section class="section fade-in">
     <div class="section-hd">
-      <h2 class="section-title">${title}</h2>
+      <div>
+        <p class="section-eyebrow">${eyebrow}</p>
+        <h2 class="section-title">${title}</h2>
+      </div>
+      <a class="section-link" href="#!/search">Semua ${I.chevron || '›'}</a>
     </div>
     <div class="cards-scroll">${cards}</div>
   </section>`;
