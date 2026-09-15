@@ -271,7 +271,8 @@
       box-shadow: 0 6px 24px rgba(245,166,35,0.28);
       transition: filter 0.15s, transform 0.15s;
     }
-    .btn-pri:hover { filter: brightness(0.92); }
+    .btn-pri:hover { filter: brightness(0.92); transform: translateY(-1px); }
+    .btn-sec:hover { background: rgba(255,255,255,0.16); transform: translateY(-1px); }
     .btn-pri:active { transform: scale(0.96); }
     .btn-sec {
       display: inline-flex; align-items: center; gap: 7px;
@@ -363,7 +364,8 @@
       transition: border-color 0.2s, transform 0.2s;
       cursor: pointer;
     }
-    .card:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
+    .card:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.55); }
+    .card:hover .card-img img { transform: scale(1.05); filter: brightness(1.06); }
     .card-img {
       position: relative; aspect-ratio: 2/3; overflow: hidden;
     }
@@ -615,6 +617,11 @@
     .footer-links a { font-size: 11px; color: var(--text-dim); transition: color 0.15s; }
     .footer-links a:hover { color: var(--purple-lt); }
     .footer-copy { font-size: 10px; color: var(--text-mute); }
+
+    /* ── REVEAL ON SCROLL (MovieZone restrained motion) ─── */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
     /* ── RESPONSIVE ─────────────────────────────────── */
     @media (min-width: 640px) {
@@ -1445,6 +1452,18 @@ async function render() {
   }
   bindHero();
   bindSidebar();
+  bindReveal();
+}
+
+// ─── Reveal on scroll (MovieZone restrained motion) ──────────────────────────
+function bindReveal() {
+  const els = Array.from(document.querySelectorAll('.section, .card'));
+  if (!els.length || !('IntersectionObserver' in window)) return;
+  els.forEach(e => e.classList.add('reveal'));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  els.forEach(e => io.observe(e));
 }
 
 function bindSidebar() {
